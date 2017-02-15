@@ -16,7 +16,9 @@ sql = '''SELECT ServerPorts.port_number
 		WHERE ServerTypes.type_name = 'apache' AND ServerProjects.projects_id = '3';'''
 conn = sqlite3.connect(path)
 result = conn.execute(sql).fetchall()
-commit = conn.commit()
+conn.commit()
 
 for row in result:
 	print('PortNumber= ' + str(row[0]))
+
+conn.close()
