@@ -9,7 +9,6 @@ prefix = sys.argv[6]
 counts = int(sys.argv[7])
 mode = int(sys.argv[8], 8)
 
-print(host)
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
