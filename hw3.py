@@ -1,28 +1,30 @@
-import sys, os, paramiko
+import sys
+import os
+import paramiko
 
 host = sys.argv[1]
 port = int(sys.argv[2])
 name = sys.argv[3]
-passwd = sys.argv[4]
-path = sys.argv[5]
-prefix = sys.argv[6]
-counts = int(sys.argv[7])
-mode = int(sys.argv[8], 8)
+path = sys.argv[4]
+prefix = sys.argv[5]
+counts = int(sys.argv[6])
+mode = int(sys.argv[7], 8)
 
+print(host)
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect(host, port=port, username=name, password=passwd)
+ssh.connect(host, port=port, username=name)
 
 
-fld = ((os.path.join(path, prefix)))
-
-i = 1
-
+i = 0
 while i < counts:
-	folder = fld + str(i)
-	os.mkdir(folder, mode)
+	fld = os.path.join(path, prefix + str(i))
+	stdin, stdout, stderr = ssh.exec_command('mkdir ' + fld)
+	stdin, stdout, stderr = ssh.exec_command('chmod ' + str(mode) + ' ' + fld)
 	i = i + 1
 
+print('Folders were created on host: %s' % (host))
 
-print('Folder were created')
+
+ssh.close()
